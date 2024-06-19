@@ -163,8 +163,7 @@ public class SuccessMessages {
 
 
     // --  ASAF
-
-
+    public static final String PUBLISHER_CREATED = "Publisher is created successfully";
 
 
 

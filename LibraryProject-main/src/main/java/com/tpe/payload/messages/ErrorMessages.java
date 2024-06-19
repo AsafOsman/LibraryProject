@@ -166,8 +166,7 @@ public class ErrorMessages {
 
     // --  ASAF
     public static final String NOT_FOUND_PUBLISHER_ID = "Error: Publisher not found with id %s";
-
-
+    public static final String PUBLISHER_EXISTS_MESSAGE = "Error: Publisher already exists with id %s";
 
 
 

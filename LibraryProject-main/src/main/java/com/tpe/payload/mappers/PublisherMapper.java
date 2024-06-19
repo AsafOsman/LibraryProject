@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class PublisherMapper {
 
     // POJO --> DTO
-    public static PublisherResponse mapPublisherToPublisherResponse(Publisher publisher) {
+    public PublisherResponse mapPublisherToPublisherResponse(Publisher publisher) {
         return PublisherResponse.builder()
                 .id(publisher.getId())
                 .name(publisher.getName())
@@ -26,7 +26,7 @@ public class PublisherMapper {
     }
 
     // DTO --> POJO
-    public static Publisher mapPublisherRequestToPublisher(PublisherRequest publisherRequest) {
+    public Publisher mapPublisherRequestToPublisher(PublisherRequest publisherRequest) {
         return  Publisher.builder()
                 .name(publisherRequest.getName())
                 .builtIn(publisherRequest.getBuiltIn())
