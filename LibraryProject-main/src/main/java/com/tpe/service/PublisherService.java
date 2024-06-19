@@ -1,6 +1,7 @@
 package com.tpe.service;
 
 import com.tpe.entity.concretes.business.Publisher;
+import com.tpe.exception.ConflictException;
 import com.tpe.exception.ResourceNotFoundException;
 import com.tpe.payload.mappers.PublisherMapper;
 import com.tpe.payload.messages.ErrorMessages;
@@ -60,5 +61,31 @@ public class PublisherService {
     private Publisher isPublisherExist(Long id){
         return publisherRepository.findById(id).orElseThrow(()->
                 new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_PUBLISHER_ID,id)));
+    }
+
+    public ResponseMessage deletePublisherById(Long id) {
+        Publisher publisher = isPublisherExist(id);
+        if (Boolean.TRUE.equals(publisher.getBuiltIn())){
+        throw new ResourceNotFoundException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+        }
+        publisherRepository.delete(publisher);
+        return ResponseMessage.<PublisherResponse>builder()
+                .message(SuccessMessages.PUBLISHER_DELETE)
+                .httpStatus(HttpStatus.OK)
+                .build();
+    }
+
+    public PublisherResponse updatePublisherById(Long id, PublisherRequest publisherRequest) {
+        Publisher publisher = isPublisherExist(id);
+        if (
+                !(publisher.getName().equals(publisherRequest.getName())) && //farklı ise kontroku
+                        (publisherRepository.existsByNameEqualsIgnoreCase(publisherRequest.getName()))){
+            throw new ConflictException(String.format(ErrorMessages.PUBLISHER_ALREADY_EXIST_WITH_NAME,publisherRequest.getName()));
+        }
+        Publisher updatedPublisher = publisherMapper.mapPublisherRequestToUpdatePublisher(id, publisherRequest);
+       // updatedPublisher.setBooks(publisher.getBooks());
+       Publisher savedPublisher = publisherRepository.save(updatedPublisher);
+
+       return publisherMapper.mapPublisherToPublisherResponse(savedPublisher);
     }
 }

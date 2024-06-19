@@ -36,4 +36,13 @@ public class PublisherMapper {
                 .build();
     }
 
+    public Publisher mapPublisherRequestToUpdatePublisher(Long id ,PublisherRequest publisherRequest) {
+        return Publisher.builder()
+                .id(id)
+                .name(publisherRequest.getName())
+                .builtIn(publisherRequest.getBuiltIn())
+               // .books(publisherRequest.getBooks())
+                .build();
+    }
+
 }

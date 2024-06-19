@@ -167,8 +167,8 @@ public class ErrorMessages {
     // --  ASAF
     public static final String NOT_FOUND_PUBLISHER_ID = "Error: Publisher not found with id %s";
     public static final String PUBLISHER_EXISTS_MESSAGE = "Error: Publisher already exists with id %s";
-
-
+    public static final String NOT_PERMITTED_METHOD_MESSAGE = "You do not have any permission to do this operation";
+    public static final String PUBLISHER_ALREADY_EXIST_WITH_NAME = "Publisher with name %s is already exist";
 
 
 

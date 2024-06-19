@@ -1,16 +1,13 @@
 package com.tpe.controller;
 
 import com.tpe.exception.ResourceNotFoundException;
-import com.tpe.payload.mappers.PublisherMapper;
 import com.tpe.payload.messages.ErrorMessages;
 import com.tpe.payload.request.PublisherRequest;
 import com.tpe.payload.response.PublisherResponse;
+import com.tpe.payload.response.ResponseMessage;
 import com.tpe.service.PublisherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +26,7 @@ public class PublisherController {
 
     @PostMapping// http://localhost:8080/publishers
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<PublisherResponse> createPublisher(@Valid @RequestBody PublisherRequest publisherRequest){
+    public ResponseMessage<PublisherResponse> createPublisher(@Valid @RequestBody PublisherRequest publisherRequest){
         return publisherService.createPublisher(publisherRequest);
     }
 
@@ -45,6 +42,7 @@ public class PublisherController {
     }
 
     @GetMapping // http://localhost:8080/publishers?page=size10&sort=name&type=asc
+//    @PreAuthorize("hasAnyAuthority()")
     public List<PublisherResponse> getAllPublishers(
         @RequestParam(value = "page", defaultValue = "0") int page,
         @RequestParam(value = "size", defaultValue = "10") int size,
@@ -53,6 +51,21 @@ public class PublisherController {
 
         Page<PublisherResponse> publisher = publisherService.getAllPublisher(page,size,sort,type);
         return (List<PublisherResponse>) new ResponseEntity<>(publisher,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseMessage deletePublisher(@PathVariable("id") Long id){
+        return publisherService.deletePublisherById(id);
+    }
+
+    @PutMapping("/update/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseEntity<PublisherResponse> updatePublisherById(@PathVariable Long id,
+                                                                 @Valid @RequestBody
+                                                             PublisherRequest publisherRequest){
+        return ResponseEntity.ok(publisherService.updatePublisherById(id,publisherRequest));
+
     }
 
 }

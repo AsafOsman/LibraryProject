@@ -164,21 +164,7 @@ public class SuccessMessages {
 
     // --  ASAF
     public static final String PUBLISHER_CREATED = "Publisher is created successfully";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public static final String PUBLISHER_DELETE = "Publisher is deleted successfully";
 
 
     // --  VEYSEL
